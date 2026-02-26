@@ -172,8 +172,20 @@ export default function Settings() {
               )}
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">
+              <label className="text-xs text-gray-500 mb-1 flex items-center gap-1">
                 溫度 ({config.gptTemperature})
+                <span className="relative group">
+                  <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-gray-200 text-gray-500 text-[10px] font-bold cursor-help hover:bg-blue-100 hover:text-blue-600 transition-colors">?</span>
+                  <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-72 p-3 rounded-lg bg-gray-800 text-white text-[11px] leading-relaxed shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none">
+                    <b>🌡️ 溫度設定說明</b><br /><br />
+                    <b>0 ~ 0.3</b>：精確穩定，適合轉錄、翻譯<br />
+                    <b>0.5 ~ 0.7</b>：平衡，適合信件、摘要<br />
+                    <b>0.8 ~ 1.0</b>：有創意，適合文案寫作<br /><br />
+                    越低越精確，越高越有創意但越不可控。<br />
+                    語音轉錄建議使用 <b>0.2 ~ 0.3</b>。
+                    <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800" />
+                  </span>
+                </span>
               </label>
               <input
                 type="range"
