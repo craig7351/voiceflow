@@ -222,6 +222,17 @@ export default function Settings() {
           </div>
         </div>
       </div>
+
+      {/* 設定檔位置 */}
+      <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
+        <h3 className="text-sm font-semibold text-gray-800 mb-3">📂 設定檔位置</h3>
+        <button
+          onClick={() => ipc.openConfigDir()}
+          className="px-4 py-2 text-sm rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors"
+        >
+          開啟設定目錄
+        </button>
+      </div>
     </div>
   )
 }

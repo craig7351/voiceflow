@@ -1,4 +1,4 @@
-import { ipcMain, BrowserWindow } from 'electron'
+import { ipcMain, BrowserWindow, shell, app } from 'electron'
 import { IPC_CHANNELS } from '../shared/ipc-channels'
 import { AudioProcessorService } from './services/audio.service'
 import { ConfigService } from './services/config.service'
@@ -82,5 +82,11 @@ export function registerIPCHandlers(_mainWindow: BrowserWindow): void {
   // 取得所有模板
   ipcMain.handle('templates:list', () => {
     return TemplateService.getAllTemplates()
+  })
+
+  // 開啟設定檔目錄
+  ipcMain.handle('config:open-dir', () => {
+    const configPath = app.getPath('userData')
+    shell.openPath(configPath)
   })
 }

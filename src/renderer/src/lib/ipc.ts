@@ -16,6 +16,7 @@ export const ipc = {
   importWords: api.importWords,
   getStats: api.getStats,
   getTemplates: api.getTemplates,
+  openConfigDir: api.openConfigDir,
 
   onRecordingStart: api.onRecordingStart,
   onRecordingStop: api.onRecordingStop,

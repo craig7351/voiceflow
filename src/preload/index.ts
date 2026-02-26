@@ -47,7 +47,10 @@ const voiceflowAPI = {
   getStats: () => ipcRenderer.invoke('stats:get'),
 
   // 模板
-  getTemplates: () => ipcRenderer.invoke('templates:list')
+  getTemplates: () => ipcRenderer.invoke('templates:list'),
+
+  // 開啟設定目錄
+  openConfigDir: () => ipcRenderer.invoke('config:open-dir')
 }
 
 if (process.contextIsolated) {

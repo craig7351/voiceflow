@@ -21,6 +21,7 @@ interface VoiceFlowAPI {
   importWords: (words: string[]) => Promise<void>
   getStats: () => Promise<AppStats>
   getTemplates: () => Promise<Record<string, TemplateConfig>>
+  openConfigDir: () => Promise<void>
 }
 
 declare global {
