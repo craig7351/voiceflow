@@ -6,7 +6,7 @@ const templates = [
   { id: 'notion', name: 'Notion', icon: '📓', tip: 'Markdown 格式，自動分段加標題' },
   { id: 'slack', name: 'Slack', icon: '💬', tip: '輕鬆專業語氣，搭配 emoji' },
   { id: 'email', name: 'Email', icon: '📧', tip: '正式郵件格式，含問候與結尾' },
-  { id: 'plain', name: '純文字', icon: '📄', tip: '僅修正錯字標點，不改語句' }
+  { id: 'plain', name: '情侶', icon: '💕', tip: '把生硬簡短的文字修飾成溫柔好聽的版本' }
 ]
 
 export default function TemplateSelector() {
