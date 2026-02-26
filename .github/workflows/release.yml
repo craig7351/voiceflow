@@ -5,13 +5,23 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
-    
+        include:
+          - os: windows-latest
+            build_script: build:win
+          - os: macos-latest
+            build_script: build:mac
+          - os: ubuntu-latest
+            build_script: build:linux
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -25,15 +35,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build and Release
+      - name: Build and publish
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            npm run build:win -- -p always
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-            npm run build:mac -- -p always
-          else
-            npm run build:linux -- -p always
-          fi
-        shell: bash
+        run: npm run ${{ matrix.build_script }} -- --publish always

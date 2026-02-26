@@ -13,13 +13,14 @@ files:
   - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
 asarUnpack:
   - resources/**
+npmRebuild: true
 win:
   executableName: VoiceFlow
   target:
     - target: nsis
-      arch: [x64, arm64]
+      arch: [x64]
   icon: resources/icon.ico
-  artifactName: ${productName}-Setup-${version}-${arch}.exe
+  artifactName: ${productName}-Setup-${version}-${arch}.${ext}
 nsis:
   oneClick: false
   allowToChangeInstallationDirectory: true
@@ -29,17 +30,23 @@ nsis:
 mac:
   target:
     - target: dmg
-      arch: [x64, arm64]
+      arch: [universal]
   icon: resources/icon.icns
   category: public.app-category.productivity
   hardenedRuntime: true
   entitlementsInherit: build/entitlements.mac.plist
   extendInfo:
-    - NSMicrophoneUsageDescription: VoiceFlow 需要麥克風權限以進行語音輸入。
+    NSMicrophoneUsageDescription: VoiceFlow 需要麥克風權限以進行語音輸入。
   notarize: false
 dmg:
-  artifactName: ${productName}-${version}-${arch}.dmg
-npmRebuild: false
+  artifactName: ${productName}-${version}-${arch}.${ext}
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+  icon: resources/icon.png
+  category: Utility
+  artifactName: ${productName}-${version}-${arch}.${ext}
 publish:
   provider: github
   releaseType: release
