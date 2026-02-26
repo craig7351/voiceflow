@@ -90,19 +90,20 @@ class GeminiServiceClass {
       ? `以下是專有名詞供參考：${options.customDictionary.join('、')}。`
       : ''
 
-    const prompt = `請完成以下兩個任務：
-1. 將這段音訊精確轉錄為文字。${langHint}${dictHint}
+    // 把所有指令放到 systemInstruction，避免被混進轉錄結果
+    const sysInstruction = `你是語音轉錄與潤稿助手。使用者會傳送一段音訊，你需要：
+1. 將音訊精確轉錄為純文字。${langHint}${dictHint}不要包含時間戳記，只要純文字。
 2. 根據以下潤稿指示對轉錄結果進行潤稿：
 ${systemPrompt}
 
-請以 JSON 格式回傳，格式如下（不要加 markdown 標記）：
-{"original":"轉錄原文","refined":"潤稿結果"}`
+以 JSON 回傳，包含 "original"（轉錄原文）和 "refined"（潤稿結果）兩個欄位。`
 
     const response = await client.models.generateContent({
       model,
       config: {
         temperature: temperature ?? 0.3,
-        responseMimeType: 'application/json'
+        responseMimeType: 'application/json',
+        systemInstruction: sysInstruction
       },
       contents: [
         {
@@ -114,7 +115,7 @@ ${systemPrompt}
                 data: base64Audio
               }
             },
-            { text: prompt }
+            { text: '請轉錄並潤稿這段音訊。' }
           ]
         }
       ]

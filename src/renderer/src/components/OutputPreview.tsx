@@ -1,7 +1,20 @@
+import { useState, useEffect } from 'react'
 import { useAppStore } from '@renderer/stores/appStore'
+import { ipc } from '@renderer/lib/ipc'
 
 export default function OutputPreview() {
   const { lastOutput } = useAppStore()
+  const [modelName, setModelName] = useState('')
+
+  useEffect(() => {
+    ipc.getAllConfig().then((cfg) => {
+      if (cfg.aiProvider === 'gemini') {
+        setModelName((cfg.geminiModel as string) || 'gemini-2.5-flash')
+      } else {
+        setModelName((cfg.gptModel as string) || 'gpt-4o-mini')
+      }
+    })
+  }, [lastOutput])
 
   if (!lastOutput) {
     return (
@@ -30,6 +43,7 @@ export default function OutputPreview() {
       </div>
       <div className="mt-3 flex items-center gap-3 text-xs text-gray-400">
         <span>模板：{lastOutput.template}</span>
+        <span>模型：{modelName}</span>
         <span>時間：{new Date(lastOutput.timestamp).toLocaleTimeString()}</span>
       </div>
     </div>
