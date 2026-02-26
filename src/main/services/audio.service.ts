@@ -6,6 +6,7 @@ import { promisify } from 'util'
 import { ConfigService } from './config.service'
 import { DatabaseService } from './database.service'
 import { TemplateService } from './template.service'
+import { GeminiService } from './gemini.service'
 import type { ProcessOptions, ProcessResult } from '../../shared/types'
 
 const writeFileAsync = promisify(writeFile)
@@ -17,10 +18,10 @@ class AudioProcessorServiceClass {
     await writeFileAsync(tempPath, audioBuffer)
 
     try {
-      // Whisper STT
+      // STT 語音轉文字
       const transcript = await this.transcribe(tempPath, options)
 
-      // GPT 潤稿
+      // 潤稿
       const refined = await this.refine(transcript, options)
 
       // 儲存到歷史紀錄
@@ -39,7 +40,14 @@ class AudioProcessorServiceClass {
   }
 
   private async transcribe(filePath: string, options: ProcessOptions): Promise<string> {
-    const client = this.getClient()
+    const provider = ConfigService.get('aiProvider')
+
+    if (provider === 'gemini') {
+      return GeminiService.transcribe(filePath, options)
+    }
+
+    // OpenAI Whisper
+    const client = this.getOpenAIClient()
     const model = ConfigService.get('whisperModel')
     const response = await client.audio.transcriptions.create({
       file: createReadStream(filePath),
@@ -51,7 +59,14 @@ class AudioProcessorServiceClass {
   }
 
   private async refine(text: string, options: ProcessOptions): Promise<string> {
-    const client = this.getClient()
+    const provider = ConfigService.get('aiProvider')
+
+    if (provider === 'gemini') {
+      return GeminiService.refine(text, options)
+    }
+
+    // OpenAI GPT
+    const client = this.getOpenAIClient()
     const systemPrompt = TemplateService.getPrompt(options.template)
     const model = ConfigService.get('gptModel')
     const temperature = ConfigService.get('gptTemperature')
@@ -67,7 +82,7 @@ class AudioProcessorServiceClass {
     return response.choices[0].message.content ?? text
   }
 
-  private getClient(): OpenAI {
+  private getOpenAIClient(): OpenAI {
     const apiKey = ConfigService.get('openaiApiKey')
     if (!apiKey) throw new Error('OpenAI API Key 尚未設定')
     return new OpenAI({ apiKey })

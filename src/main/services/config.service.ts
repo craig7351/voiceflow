@@ -2,7 +2,10 @@ import Store from 'electron-store'
 import type { AppConfig } from '../../shared/types'
 
 const defaults: AppConfig = {
+  aiProvider: 'openai',
   openaiApiKey: '',
+  geminiApiKey: '',
+  geminiModel: 'gemini-2.0-flash',
   hotkeys: {
     startStop: 'CommandOrControl+Shift+Space',
     cancel: 'Escape'

@@ -1,3 +1,5 @@
+export type AiProvider = 'openai' | 'gemini'
+
 export interface ProcessOptions {
   template: string
   language: string
@@ -50,7 +52,10 @@ export interface HotkeyConfig {
 }
 
 export interface AppConfig {
+  aiProvider: AiProvider
   openaiApiKey: string
+  geminiApiKey: string
+  geminiModel: string
   hotkeys: HotkeyConfig
   template: string
   transcriptionLang: string
