@@ -201,10 +201,5 @@ npm run build:linux
 
 ---
 
-## 💡 IDE 推薦設定
-推薦使用 **VSCode** 搭配以下套件進行開發：
-- [ESLint Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
-- [Prettier Extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
-
 ## 📄 授權條款
 MIT License

@@ -49,4 +49,4 @@ linux:
   artifactName: ${productName}-${version}-${arch}.${ext}
 publish:
   provider: github
-  releaseType: release
+  releaseType: draft
