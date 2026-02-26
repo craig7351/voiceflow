@@ -13,6 +13,7 @@ export function useRecorder() {
 
   const startRecording = useCallback(async () => {
     try {
+      console.log('🎤 開始取得麥克風權限...')
       const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           channelCount: 1,
@@ -37,6 +38,7 @@ export function useRecorder() {
         const blob = new Blob(chunks.current, { type: 'audio/webm' })
         const buffer = await blob.arrayBuffer()
         const duration = (Date.now() - startTime.current) / 1000
+        console.log(`🛑 錄音結束，時長 ${duration.toFixed(1)}s，音訊大小 ${(buffer.byteLength / 1024).toFixed(1)}KB`)
 
         if (timerRef.current) {
           clearInterval(timerRef.current)
@@ -44,6 +46,7 @@ export function useRecorder() {
         }
 
         setRecordingStatus('processing')
+        console.log(`⏳ 開始處理音訊... (模板: ${settings.template}, 語言: ${settings.transcriptionLang})`)
 
         try {
           const result = await ipc.processAudio(buffer, {
@@ -51,6 +54,8 @@ export function useRecorder() {
             language: settings.transcriptionLang,
             duration
           })
+          console.log(`✅ 轉錄完成，原文: "${result.original.slice(0, 50)}..."`)
+          console.log(`✅ 潤稿完成，結果: "${result.refined.slice(0, 50)}..."`)
 
           setLastOutput({
             original: result.original,
@@ -62,8 +67,10 @@ export function useRecorder() {
           setRecordingStatus('done')
 
           // 自動貼上
+          console.log('📋 自動貼上文字...')
           await ipc.pasteText(result.refined)
         } catch (err) {
+          console.error('❌ 音訊處理失敗:', err instanceof Error ? err.message : err)
           setErrorMessage(err instanceof Error ? err.message : '處理失敗')
           setRecordingStatus('error')
         }
@@ -72,6 +79,7 @@ export function useRecorder() {
       }
 
       mediaRecorder.current.start()
+      console.log('🎙️ 錄音中...')
       setRecordingStatus('recording')
       setErrorMessage(null)
 
@@ -80,6 +88,7 @@ export function useRecorder() {
         setRecordingDuration(Math.floor((Date.now() - startTime.current) / 1000))
       }, 1000)
     } catch (err) {
+      console.error('❌ 無法取得麥克風權限:', err)
       setErrorMessage('無法取得麥克風權限')
       setRecordingStatus('error')
     }
