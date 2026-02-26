@@ -5,7 +5,7 @@ const defaults: AppConfig = {
   aiProvider: 'openai',
   openaiApiKey: '',
   geminiApiKey: '',
-  geminiModel: 'gemini-2.0-flash',
+  geminiModel: 'gemini-2.5-flash',
   hotkeys: {
     startStop: 'CommandOrControl+Shift+Space',
     cancel: 'Escape'

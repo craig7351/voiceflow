@@ -24,7 +24,7 @@ class GeminiServiceClass {
       : ''
 
     const response = await client.models.generateContent({
-      model: 'gemini-2.0-flash',
+      model: 'gemini-2.5-flash',
       contents: [
         {
           role: 'user',
@@ -49,7 +49,7 @@ class GeminiServiceClass {
   async refine(text: string, options: ProcessOptions): Promise<string> {
     const client = this.getClient()
     const systemPrompt = TemplateService.getPrompt(options.template)
-    const model = ConfigService.get('geminiModel') || 'gemini-2.0-flash'
+    const model = ConfigService.get('geminiModel') || 'gemini-2.5-flash'
     const temperature = ConfigService.get('gptTemperature')
 
     const response = await client.models.generateContent({
