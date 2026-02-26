@@ -84,6 +84,29 @@ export function registerIPCHandlers(_mainWindow: BrowserWindow): void {
     return TemplateService.getAllTemplates()
   })
 
+  // 取得預設模板
+  ipcMain.handle('templates:defaults', () => {
+    return TemplateService.getDefaultTemplates()
+  })
+
+  // 設定自訂模板 prompt
+  ipcMain.handle(
+    'templates:set',
+    (_event, templateId: string, config: { name: string; prompt: string }) => {
+      TemplateService.setCustomTemplate(templateId, config)
+    }
+  )
+
+  // 重置模板為預設
+  ipcMain.handle('templates:reset', (_event, templateId: string) => {
+    TemplateService.resetTemplate(templateId)
+  })
+
+  // 刪除使用者自訂模板
+  ipcMain.handle('templates:delete', (_event, templateId: string) => {
+    TemplateService.deleteCustomTemplate(templateId)
+  })
+
   // 開啟設定檔目錄
   ipcMain.handle('config:open-dir', () => {
     const configPath = app.getPath('userData')

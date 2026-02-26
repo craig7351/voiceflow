@@ -11,6 +11,7 @@ const defaults: AppConfig = {
     cancel: 'Escape'
   },
   template: 'general',
+  customTemplates: {},
   transcriptionLang: 'auto',
   outputLang: 'zh-TW',
   autoSwitchTemplate: true,

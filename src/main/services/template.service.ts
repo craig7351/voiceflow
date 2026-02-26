@@ -1,6 +1,7 @@
 import type { TemplateConfig } from '../../shared/types'
+import { ConfigService } from './config.service'
 
-const TEMPLATES: Record<string, TemplateConfig> = {
+const DEFAULT_TEMPLATES: Record<string, TemplateConfig> = {
   general: {
     name: '通用',
     prompt: `你是一個繁體中文文字編輯助手。請將以下語音轉錄的文字進行修正：
@@ -44,15 +45,62 @@ const TEMPLATES: Record<string, TemplateConfig> = {
 
 class TemplateServiceClass {
   getPrompt(templateId: string): string {
-    return TEMPLATES[templateId]?.prompt ?? TEMPLATES.general.prompt
+    // 優先使用使用者自訂的 prompt
+    const custom = ConfigService.get('customTemplates')
+    if (custom?.[templateId]?.prompt) {
+      return custom[templateId].prompt
+    }
+    return DEFAULT_TEMPLATES[templateId]?.prompt ?? DEFAULT_TEMPLATES.general.prompt
   }
 
   getTemplateName(templateId: string): string {
-    return TEMPLATES[templateId]?.name ?? '通用'
+    const custom = ConfigService.get('customTemplates')
+    if (custom?.[templateId]?.name) {
+      return custom[templateId].name
+    }
+    return DEFAULT_TEMPLATES[templateId]?.name ?? '通用'
   }
 
   getAllTemplates(): Record<string, TemplateConfig> {
-    return { ...TEMPLATES }
+    const custom = ConfigService.get('customTemplates') || {}
+    // 合併：custom 覆蓋 default
+    const merged: Record<string, TemplateConfig> = {}
+    for (const [id, tpl] of Object.entries(DEFAULT_TEMPLATES)) {
+      merged[id] = custom[id]
+        ? { name: custom[id].name || tpl.name, prompt: custom[id].prompt || tpl.prompt }
+        : { ...tpl }
+    }
+    // 加入使用者新增的模板（不在 default 中的）
+    for (const [id, tpl] of Object.entries(custom)) {
+      if (!merged[id]) {
+        merged[id] = { ...tpl }
+      }
+    }
+    return merged
+  }
+
+  getDefaultTemplates(): Record<string, TemplateConfig> {
+    return { ...DEFAULT_TEMPLATES }
+  }
+
+  setCustomTemplate(templateId: string, config: TemplateConfig): void {
+    const custom = ConfigService.get('customTemplates') || {}
+    custom[templateId] = config
+    ConfigService.set('customTemplates', custom)
+  }
+
+  resetTemplate(templateId: string): void {
+    const custom = ConfigService.get('customTemplates') || {}
+    delete custom[templateId]
+    ConfigService.set('customTemplates', custom)
+  }
+
+  deleteCustomTemplate(templateId: string): void {
+    // 只能刪除非預設模板
+    if (DEFAULT_TEMPLATES[templateId]) return
+    const custom = ConfigService.get('customTemplates') || {}
+    delete custom[templateId]
+    ConfigService.set('customTemplates', custom)
   }
 }
 

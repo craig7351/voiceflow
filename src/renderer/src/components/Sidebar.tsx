@@ -2,6 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 const navItems = [
   { to: '/', label: '首頁', icon: '🏠' },
+  { to: '/templates', label: '模板編輯', icon: '✏️' },
   { to: '/history', label: '歷史紀錄', icon: '📋' },
   { to: '/dictionary', label: '字典', icon: '📖' },
   { to: '/settings', label: '設定', icon: '⚙️' }

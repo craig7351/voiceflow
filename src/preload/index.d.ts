@@ -21,6 +21,10 @@ interface VoiceFlowAPI {
   importWords: (words: string[]) => Promise<void>
   getStats: () => Promise<AppStats>
   getTemplates: () => Promise<Record<string, TemplateConfig>>
+  getDefaultTemplates: () => Promise<Record<string, TemplateConfig>>
+  setTemplate: (templateId: string, config: { name: string; prompt: string }) => Promise<void>
+  resetTemplate: (templateId: string) => Promise<void>
+  deleteTemplate: (templateId: string) => Promise<void>
   openConfigDir: () => Promise<void>
 }
 

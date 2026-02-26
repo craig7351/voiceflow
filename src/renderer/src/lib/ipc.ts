@@ -16,6 +16,10 @@ export const ipc = {
   importWords: api.importWords,
   getStats: api.getStats,
   getTemplates: api.getTemplates,
+  getDefaultTemplates: api.getDefaultTemplates,
+  setTemplate: api.setTemplate,
+  resetTemplate: api.resetTemplate,
+  deleteTemplate: api.deleteTemplate,
   openConfigDir: api.openConfigDir,
 
   onRecordingStart: api.onRecordingStart,

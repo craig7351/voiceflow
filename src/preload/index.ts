@@ -48,6 +48,11 @@ const voiceflowAPI = {
 
   // 模板
   getTemplates: () => ipcRenderer.invoke('templates:list'),
+  getDefaultTemplates: () => ipcRenderer.invoke('templates:defaults'),
+  setTemplate: (templateId: string, config: { name: string; prompt: string }) =>
+    ipcRenderer.invoke('templates:set', templateId, config),
+  resetTemplate: (templateId: string) => ipcRenderer.invoke('templates:reset', templateId),
+  deleteTemplate: (templateId: string) => ipcRenderer.invoke('templates:delete', templateId),
 
   // 開啟設定目錄
   openConfigDir: () => ipcRenderer.invoke('config:open-dir')

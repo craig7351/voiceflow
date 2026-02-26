@@ -58,6 +58,7 @@ export interface AppConfig {
   geminiModel: string
   hotkeys: HotkeyConfig
   template: string
+  customTemplates: Record<string, TemplateConfig>
   transcriptionLang: string
   outputLang: string
   autoSwitchTemplate: boolean
