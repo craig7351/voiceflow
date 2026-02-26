@@ -3,8 +3,12 @@
   "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
-  "author": "example.com",
-  "homepage": "https://electron-vite.org",
+  "author": "craig7351",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/craig7351/voiceflow.git"
+  },
+  "homepage": "https://github.com/craig7351/voiceflow",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
