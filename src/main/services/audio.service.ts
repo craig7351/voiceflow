@@ -18,11 +18,21 @@ class AudioProcessorServiceClass {
     await writeFileAsync(tempPath, audioBuffer)
 
     try {
-      // STT 語音轉文字
-      const transcript = await this.transcribe(tempPath, options)
+      const provider = ConfigService.get('aiProvider')
 
-      // 潤稿
-      const refined = await this.refine(transcript, options)
+      let transcript: string
+      let refined: string
+
+      if (provider === 'gemini') {
+        // Gemini: 合併轉錄+潤稿為單次 API 呼叫，減少延遲
+        const result = await GeminiService.transcribeAndRefine(tempPath, options)
+        transcript = result.original
+        refined = result.refined
+      } else {
+        // OpenAI: 兩步驟 Whisper STT + GPT 潤稿
+        transcript = await this.transcribe(tempPath, options)
+        refined = await this.refine(transcript, options)
+      }
 
       // 儲存到歷史紀錄
       DatabaseService.saveRecord({
