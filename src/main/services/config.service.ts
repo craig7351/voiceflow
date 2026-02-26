@@ -28,7 +28,8 @@ class ConfigServiceClass {
   private store!: Store<AppConfig>
 
   init(): void {
-    this.store = new Store<AppConfig>({
+    const StoreClass = (Store as unknown as { default: typeof Store }).default || Store
+    this.store = new StoreClass({
       defaults,
       encryptionKey: 'voiceflow-secure-key',
       name: 'voiceflow-config'
