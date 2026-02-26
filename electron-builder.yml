@@ -1,0 +1,45 @@
+appId: com.voiceflow.app
+productName: VoiceFlow
+copyright: Copyright © 2026
+directories:
+  output: dist
+  buildResources: build
+files:
+  - '!**/.vscode/*'
+  - '!src/*'
+  - '!electron.vite.config.{js,ts,mjs,cjs}'
+  - '!{.eslintcache,eslint.config.mjs,.prettierignore,.prettierrc.yaml,dev-app-update.yml,CHANGELOG.md,README.md}'
+  - '!{.env,.env.*,.npmrc,pnpm-lock.yaml}'
+  - '!{tsconfig.json,tsconfig.node.json,tsconfig.web.json}'
+asarUnpack:
+  - resources/**
+win:
+  executableName: VoiceFlow
+  target:
+    - target: nsis
+      arch: [x64, arm64]
+  icon: resources/icon.ico
+  artifactName: ${productName}-Setup-${version}-${arch}.exe
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  shortcutName: ${productName}
+  uninstallDisplayName: ${productName}
+mac:
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+  icon: resources/icon.icns
+  category: public.app-category.productivity
+  hardenedRuntime: true
+  entitlementsInherit: build/entitlements.mac.plist
+  extendInfo:
+    - NSMicrophoneUsageDescription: VoiceFlow 需要麥克風權限以進行語音輸入。
+  notarize: false
+dmg:
+  artifactName: ${productName}-${version}-${arch}.dmg
+npmRebuild: false
+publish:
+  provider: github
+  releaseType: release
