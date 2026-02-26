@@ -15,7 +15,7 @@ const levelBadge: Record<LogEntry['level'], string> = {
     error: 'bg-red-900 text-red-300'
 }
 
-export default function DebugPanel({ onClose }: { onClose: () => void }): JSX.Element {
+export default function DebugPanel({ onClose }: { onClose: () => void }) {
     const [logs, setLogs] = useState<LogEntry[]>(getLogs())
     const [filter, setFilter] = useState<LogEntry['level'] | 'all'>('all')
     const bottomRef = useRef<HTMLDivElement>(null)
@@ -56,8 +56,8 @@ export default function DebugPanel({ onClose }: { onClose: () => void }): JSX.El
                                 key={level}
                                 onClick={() => setFilter(level)}
                                 className={`px-2 py-1 text-xs rounded-md transition-colors ${filter === level
-                                        ? 'bg-primary text-white'
-                                        : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                                    ? 'bg-primary text-white'
+                                    : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
                                     }`}
                             >
                                 {level === 'all' ? 'All' : level.toUpperCase()}
