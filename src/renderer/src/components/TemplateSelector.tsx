@@ -42,7 +42,7 @@ export default function TemplateSelector() {
               <span className="text-lg">{defaultIcons[id] || '📄'}</span>
               {templates[id].name}
             </button>
-            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 rounded bg-gray-800 text-white text-[10px] whitespace-nowrap opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none max-w-48 text-center !whitespace-normal">
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded shadow-lg bg-gray-800 text-white text-[10px] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none w-max max-w-64 text-left leading-relaxed">
               {templates[id].prompt.slice(0, 60)}…
               <span className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800" />
             </span>
