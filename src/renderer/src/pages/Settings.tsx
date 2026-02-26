@@ -147,8 +147,29 @@ export default function Settings() {
           <h3 className="text-sm font-semibold text-gray-700 mb-3">🤖 AI 模型</h3>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">
+              <label className="text-xs text-gray-500 mb-1 flex items-center gap-1">
                 {provider === 'openai' ? 'GPT 模型' : 'Gemini 模型'}
+                <span className="relative group">
+                  <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-gray-200 text-gray-500 text-[10px] font-bold cursor-help hover:bg-blue-100 hover:text-blue-600 transition-colors">?</span>
+                  <span className="absolute top-full left-0 mt-2 w-72 p-3 rounded-lg bg-gray-800 text-white text-[11px] leading-relaxed shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none">
+                    {provider === 'openai' ? (<>
+                      <b>📋 OpenAI 模型比較</b><br /><br />
+                      <b>GPT-4o Mini</b>：最便宜、速度快<br />
+                      <b>GPT-4o</b>：品質最好、價格較高<br />
+                      <b>GPT-4 Turbo</b>：平衡速度與品質
+                    </>) : (<>
+                      <b>📋 Gemini 模型比較</b><br /><br />
+                      <b>2.5 Flash</b>：速度快品質好<br />
+                      $0.15 / $0.60 per 1M tokens<br /><br />
+                      <b>2.5 Flash-Lite</b>：最快最便宜<br />
+                      $0.075 / $0.30 per 1M tokens<br /><br />
+                      <b>2.5 Pro</b>：最高品質<br />
+                      $1.25 / $10.00 per 1M tokens<br /><br />
+                      💡 推薦 <b>Flash</b> 或 <b>Flash-Lite</b>
+                    </>)}
+                    <span className="absolute bottom-full left-4 border-4 border-transparent border-b-gray-800" />
+                  </span>
+                </span>
               </label>
               {provider === 'openai' ? (
                 <select
@@ -167,6 +188,7 @@ export default function Settings() {
                   className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
                   <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                  <option value="gemini-2.5-flash-lite">Gemini 2.5 Flash-Lite</option>
                   <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
                 </select>
               )}
